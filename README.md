@@ -5,3 +5,5 @@ Install dependencies:
 
 Start server:
 ```npm start```
+
+Server will listen on port 3000
