@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+router.use(express.json());
 const request = require('request');
 const Airtable = require('airtable');
 const base = new Airtable({apiKey: 'keyZ0TTQdstBfuP3H'}).base('appT1QHGIE3H9c5Dn');
@@ -96,8 +97,9 @@ function getEmail(subscriptionId) {
     request(options, callback1);
 }
 
-router.get('/:subscriptionId', function (request, response) {
-    getEmail(request.params['subscriptionId']);
+router.post('/', function (request, response) {
+    const subscriptionId = request.body.events[0].links.subscription;
+    getEmail(subscriptionId);
     response.json({title: 'Email retrieved'});
 });
 
