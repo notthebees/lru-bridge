@@ -4,10 +4,10 @@ var router = express.Router();
 var Airtable = require('airtable');
 var base = new Airtable({apiKey: 'keyZ0TTQdstBfuP3H'}).base('appT1QHGIE3H9c5Dn');
 
-router.get('/:memberId', function (request, response) {
+function updateMember(memberId, response) {
     base('Members').update([
         {
-            "id": request.param('memberId'),
+            "id": memberId,
             "fields": {
                 "Contact type": "Confirmed"
             }
@@ -24,6 +24,10 @@ router.get('/:memberId', function (request, response) {
             response.json({title: "Updated " + name});
         });
     });
+}
+
+router.get('/:memberId', function (request, response) {
+    updateMember(request.params['memberId'], response);
 });
 
 module.exports = router;
