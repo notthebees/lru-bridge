@@ -4,7 +4,7 @@ var router = express.Router();
 var Airtable = require('airtable');
 var base = new Airtable({apiKey: 'keyZ0TTQdstBfuP3H'}).base('appT1QHGIE3H9c5Dn');
 
-function updateMember(memberId, response) {
+function updateMember(memberId) {
     base('Members').update([
         {
             "id": memberId,
@@ -15,30 +15,32 @@ function updateMember(memberId, response) {
     ], function (err, records) {
         if (err) {
             console.error(err);
-            response.json({title: 'Update failed'});
             return;
         }
         records.forEach(function (record) {
             let name = record.get('Name');
             console.log(name);
-            response.json({title: "Updated " + name});
         });
     });
 }
 
-router.get('/:email', function (request, response) {
+router.post('/', function (request, response) {
+    var email = "fred@fred.com"
+
     base('Members').select({
         maxRecords: 1,
         view: 'Grid view',
-        filterByFormula: "{Email address} = '" + request.params['email'] + "'"
+        filterByFormula: "{Email address} = '" + email + "'"
     }).firstPage(function(err, records) {
         if (err) { console.error(err); return; }
         records.forEach(function(record) {
             var memberId = record.id;
             console.log('Retrieved', memberId);
-            updateMember(memberId, response);
+            updateMember(memberId);
         });
     });
+
+    response.sendStatus(201);
 });
 
 module.exports = router;
