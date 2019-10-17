@@ -100,7 +100,7 @@ function getEmail(subscriptionId) {
 router.post('/', function (request, response) {
     const subscriptionId = request.body.events[0].links.subscription;
     getEmail(subscriptionId);
-    response.json({title: 'Email retrieved'});
+    response.sendStatus(204);
 });
 
 module.exports = router;
