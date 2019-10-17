@@ -61,8 +61,8 @@ function getEmail(subscriptionId) {
     request(options, callback1);
 }
 
-router.get('/', function (request, response) {
-    getEmail('SB0001RTC070X7');
+router.get('/:subscriptionId', function (request, response) {
+    getEmail(request.params['subscriptionId']);
     response.json({title: 'Email retrieved'});
 });
 
