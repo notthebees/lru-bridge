@@ -25,7 +25,7 @@ function updateMember(memberId) {
     });
 }
 
-function callback3(error, response, body) {
+function getEmail(error, response, body) {
     if (!error && response.statusCode === 200) {
         const info = JSON.parse(body);
         const email = info.customers.email;
@@ -46,7 +46,7 @@ function callback3(error, response, body) {
     }
 }
 
-function callback2(error, response, body) {
+function getCustomer(error, response, body) {
     if (!error && response.statusCode === 200) {
         const info = JSON.parse(body);
         const customerId = info.mandates.links.customer;
@@ -61,11 +61,11 @@ function callback2(error, response, body) {
             }
         };
 
-        request(options, callback3)
+        request(options, getEmail)
     }
 }
 
-function callback1(error, response, body) {
+function getMandate(error, response, body) {
     if (!error && response.statusCode === 200) {
         const info = JSON.parse(body);
         const mandateId = info.subscriptions.links.mandate;
@@ -80,11 +80,11 @@ function callback1(error, response, body) {
             }
         };
 
-        request(options, callback2)
+        request(options, getCustomer)
     }
 }
 
-function getEmail(subscriptionId) {
+function updateFor(subscriptionId) {
     const options = {
         url: 'https://api-sandbox.gocardless.com/subscriptions/' + subscriptionId,
         headers: {
@@ -94,12 +94,12 @@ function getEmail(subscriptionId) {
         }
     };
 
-    request(options, callback1);
+    request(options, getMandate);
 }
 
 router.post('/', function (request, response) {
     const subscriptionId = request.body.events[0].links.subscription;
-    getEmail(subscriptionId);
+    updateFor(subscriptionId);
     response.sendStatus(204);
 });
 
