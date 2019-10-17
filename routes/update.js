@@ -26,16 +26,17 @@ function updateMember(memberId, response) {
     });
 }
 
-router.get('/', function (request, response) {
+router.get('/:email', function (request, response) {
     base('Members').select({
         maxRecords: 1,
-        view: 'Grid view'
+        view: 'Grid view',
+        filterByFormula: "{Email address} = '" + request.params['email'] + "'"
     }).firstPage(function(err, records) {
         if (err) { console.error(err); return; }
         records.forEach(function(record) {
-            var memberId = record.id
+            var memberId = record.id;
             console.log('Retrieved', memberId);
-            updateMember(memberId, response)
+            updateMember(memberId, response);
         });
     });
 });
