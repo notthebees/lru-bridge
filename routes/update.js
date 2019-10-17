@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var Airtable = require('airtable');
-var base = new Airtable({apiKey: 'keyZ0TTQdstBfuP3H'}).base('appT1QHGIE3H9c5Dn');
+const Airtable = require('airtable');
+const base = new Airtable({apiKey: 'keyZ0TTQdstBfuP3H'}).base('appT1QHGIE3H9c5Dn');
 
 function updateMember(memberId) {
     base('Members').update([
@@ -25,7 +25,7 @@ function updateMember(memberId) {
 }
 
 router.post('/', function (request, response) {
-    var email = "fred@fred.com"
+    const email = "fred@fred.com"
 
     base('Members').select({
         maxRecords: 1,
