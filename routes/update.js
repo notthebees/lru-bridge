@@ -26,8 +26,18 @@ function updateMember(memberId, response) {
     });
 }
 
-router.get('/:memberId', function (request, response) {
-    updateMember(request.params['memberId'], response);
+router.get('/', function (request, response) {
+    base('Members').select({
+        maxRecords: 1,
+        view: 'Grid view'
+    }).firstPage(function(err, records) {
+        if (err) { console.error(err); return; }
+        records.forEach(function(record) {
+            var memberId = record.id
+            console.log('Retrieved', memberId);
+            updateMember(memberId, response)
+        });
+    });
 });
 
 module.exports = router;
