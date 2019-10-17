@@ -5,6 +5,12 @@ const request = require('request');
 const Airtable = require('airtable');
 const base = new Airtable({apiKey: 'keyZ0TTQdstBfuP3H'}).base('appT1QHGIE3H9c5Dn');
 
+const goCardlessHeaders = {
+    'Accept': 'application/json',
+    'Authorization': 'Bearer sandbox_cCnuVtVVOvn9sl12SkoXt2M2zPsby7szcH77LDYi',
+    'GoCardless-Version': '2015-07-06'
+};
+
 function updateMember(memberId) {
     base('Members').update([
         {
@@ -54,11 +60,7 @@ function getCustomer(error, response, body) {
 
         const options = {
             url: 'https://api-sandbox.gocardless.com/customers/' + customerId,
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': 'Bearer sandbox_cCnuVtVVOvn9sl12SkoXt2M2zPsby7szcH77LDYi',
-                'GoCardless-Version': '2015-07-06'
-            }
+            headers: goCardlessHeaders
         };
 
         request(options, getEmail)
@@ -73,11 +75,7 @@ function getMandate(error, response, body) {
 
         const options = {
             url: 'https://api-sandbox.gocardless.com/mandates/' + mandateId,
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': 'Bearer sandbox_cCnuVtVVOvn9sl12SkoXt2M2zPsby7szcH77LDYi',
-                'GoCardless-Version': '2015-07-06'
-            }
+            headers: goCardlessHeaders
         };
 
         request(options, getCustomer)
@@ -87,11 +85,7 @@ function getMandate(error, response, body) {
 function updateFor(subscriptionId) {
     const options = {
         url: 'https://api-sandbox.gocardless.com/subscriptions/' + subscriptionId,
-        headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Bearer sandbox_cCnuVtVVOvn9sl12SkoXt2M2zPsby7szcH77LDYi',
-            'GoCardless-Version': '2015-07-06'
-        }
+        headers: goCardlessHeaders
     };
 
     request(options, getMandate);
