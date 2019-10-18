@@ -5,9 +5,11 @@ const request = require('request');
 const Airtable = require('airtable');
 const base = new Airtable({apiKey: 'keyZ0TTQdstBfuP3H'}).base('appT1QHGIE3H9c5Dn');
 
+const goCardlessApiKey = process.env.GO_CARDLESS_API_KEY;
+
 const goCardlessHeaders = {
     'Accept': 'application/json',
-    'Authorization': 'Bearer sandbox_cCnuVtVVOvn9sl12SkoXt2M2zPsby7szcH77LDYi',
+    'Authorization': 'Bearer ' + goCardlessApiKey,
     'GoCardless-Version': '2015-07-06'
 };
 
