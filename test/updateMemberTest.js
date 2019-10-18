@@ -8,6 +8,8 @@ const nock = require('nock');
 const subscriptionId = "someSubscriptionId";
 const mandateId = "someMandateId";
 const customerId = "someCustomerId";
+const email = "someEmail";
+const memberId = "someMemberId";
 
 const webhook = {
     events: [
@@ -43,8 +45,39 @@ describe('updateMember', function () {
             .get('/customers/' + customerId)
             .reply(200, {
                 customers: {
-                    email: "tim@gocardless.com"
+                    email: email
                 }
+            });
+        nock('https://api.airtable.com')
+            .get('/v0/appT1QHGIE3H9c5Dn/Members')
+            .query({maxRecords: 1, view: "Grid view", filterByFormula: "{Email address} = '" + email + "'"})
+            .reply(200, {
+                records: [
+                    {
+                        id: memberId
+                    }
+                ]
+            });
+        nock('https://api.airtable.com')
+            .patch('/v0/appT1QHGIE3H9c5Dn/Members/?',
+                {
+                    records: [
+                        {
+                            id: memberId,
+                            fields: {
+                                "Contact type": "Confirmed"
+                            }
+                        }
+                    ]
+                })
+            .reply(200, {
+                records: [
+                    {
+                        fields: {
+                            "Name": "Member Name"
+                        }
+                    }
+                ]
             });
     });
 
