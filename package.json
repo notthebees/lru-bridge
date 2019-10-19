@@ -17,8 +17,7 @@
     "express": "~4.16.1",
     "mocha": "^6.2.1",
     "morgan": "~1.9.1",
-    "nock": "^11.4.0",
-    "request": "^2.88.0"
+    "nock": "^11.4.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.2"

@@ -2,7 +2,7 @@ const app = require('../app')
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
-const should = chai.should();
+const expect = chai.expect;
 const nock = require('nock');
 
 const subscriptionId = "someSubscriptionId";
@@ -11,7 +11,7 @@ const customerId = "someCustomerId";
 const email = "someEmail";
 const memberId = "someMemberId";
 
-const webhook = {
+const goCardlessWebhook = {
     events: [
         {
             links: {
@@ -58,18 +58,20 @@ describe('updateMember', function () {
                     }
                 ]
             });
-        nock('https://api.airtable.com')
-            .patch('/v0/appT1QHGIE3H9c5Dn/Members/?',
-                {
-                    records: [
-                        {
-                            id: memberId,
-                            fields: {
-                                "Contact type": "Confirmed"
-                            }
+    });
+
+    it('should update the member in Airtable corresponding to the GoCardless webhook', function (done) {
+        const updateAirtable = nock('https://api.airtable.com')
+            .patch('/v0/appT1QHGIE3H9c5Dn/Members/?', {
+                records: [
+                    {
+                        id: memberId,
+                        fields: {
+                            "Contact type": "Confirmed"
                         }
-                    ]
-                })
+                    }
+                ]
+            })
             .reply(200, {
                 records: [
                     {
@@ -79,14 +81,16 @@ describe('updateMember', function () {
                     }
                 ]
             });
-    });
 
-    it('should return a 204', function () {
         chai.request(app)
             .post('/updateMember')
-            .send(webhook)
+            .send(goCardlessWebhook)
             .end((err, res) => {
-                res.should.have.status(204);
+                expect(res).to.have.status(204);
+                setTimeout(() => {
+                    expect(updateAirtable.isDone()).to.equal(true);
+                    done();
+                }, 500);
             });
     });
 });
