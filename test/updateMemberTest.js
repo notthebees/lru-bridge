@@ -67,7 +67,7 @@ describe('updateMember', function () {
                     {
                         id: memberId,
                         fields: {
-                            "Contact type": "Confirmed"
+                            "Contact type": "Member - paying confirmed"
                         }
                     }
                 ]

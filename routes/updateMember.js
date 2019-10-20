@@ -18,7 +18,7 @@ function updateMember(memberId) {
         {
             "id": memberId,
             "fields": {
-                "Contact type": "Confirmed"
+                "Contact type": "Member - paying confirmed"
             }
         }
     ], function (err, records) {
