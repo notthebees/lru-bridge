@@ -27,8 +27,7 @@ function updateMember(memberId) {
             return;
         }
         records.forEach(function (record) {
-            let name = record.get('Name');
-            console.log(name);
+            console.log('Updated member:', record.id);
         });
     });
 }
@@ -37,7 +36,7 @@ function getEmail(error, response, body) {
     if (!error && response.statusCode === 200) {
         const info = JSON.parse(body);
         const email = info.customers.email;
-        console.log(email);
+        console.log('Retrieved email:', email);
 
         base('Members').select({
             maxRecords: 1,
@@ -47,7 +46,7 @@ function getEmail(error, response, body) {
             if (err) { console.error(err); return; }
             records.forEach(function(record) {
                 var memberId = record.id;
-                console.log('Retrieved', memberId);
+                console.log('Retrieved member:', memberId);
                 updateMember(memberId);
             });
         });
@@ -58,7 +57,7 @@ function getCustomer(error, response, body) {
     if (!error && response.statusCode === 200) {
         const info = JSON.parse(body);
         const customerId = info.mandates.links.customer;
-        console.log(customerId);
+        console.log('Retrieved customer:', customerId);
 
         const options = {
             url: 'https://api-sandbox.gocardless.com/customers/' + customerId,
@@ -73,7 +72,7 @@ function getMandate(error, response, body) {
     if (!error && response.statusCode === 200) {
         const info = JSON.parse(body);
         const mandateId = info.subscriptions.links.mandate;
-        console.log(mandateId);
+        console.log('Retrieved mandate:', mandateId);
 
         const options = {
             url: 'https://api-sandbox.gocardless.com/mandates/' + mandateId,
@@ -95,6 +94,7 @@ function updateFor(subscriptionId) {
 
 router.post('/', function (request, response) {
     const subscriptionId = request.body.events[0].links.subscription;
+    console.log('Received webhook for new subscription:', subscriptionId);
     updateFor(subscriptionId);
     response.sendStatus(204);
 });
