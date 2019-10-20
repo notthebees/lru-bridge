@@ -45,7 +45,7 @@ function getEmail(error, response, body) {
         }).firstPage(function(err, records) {
             if (err) { console.error(err); return; }
             records.forEach(function(record) {
-                var memberId = record.id;
+                const memberId = record.id;
                 console.log('Retrieved member:', memberId);
                 updateMember(memberId);
             });
