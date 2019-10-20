@@ -50,7 +50,11 @@ describe('updateMember', function () {
             });
         nock('https://api.airtable.com')
             .get('/v0/appT1QHGIE3H9c5Dn/Members')
-            .query({maxRecords: 1, view: "Grid view", filterByFormula: "{Email address} = '" + email + "'"})
+            .query({
+                maxRecords: 1,
+                view: "Grid view",
+                filterByFormula: "AND({Email address} = '" + email + "', {Contact type} = 'Interested (did not complete payment)')"
+            })
             .reply(200, {
                 records: [
                     {

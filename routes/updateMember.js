@@ -42,7 +42,7 @@ function getEmail(error, response, body) {
         base('Members').select({
             maxRecords: 1,
             view: 'Grid view',
-            filterByFormula: "{Email address} = '" + email + "'"
+            filterByFormula: "AND({Email address} = '" + email + "', {Contact type} = 'Interested (did not complete payment)')"
         }).firstPage(function(err, records) {
             if (err) { console.error(err); return; }
             records.forEach(function(record) {
