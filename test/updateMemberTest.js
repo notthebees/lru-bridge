@@ -2,6 +2,7 @@ const app = require('../app')
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
+const crypto = require('crypto');
 const expect = chai.expect;
 const nock = require('nock');
 
@@ -11,7 +12,7 @@ const customerId = "someCustomerId";
 const email = "someEmail";
 const memberId = "someMemberId";
 
-const goCardlessWebhook = {
+const webhookBody = {
     events: [
         {
             links: {
@@ -20,6 +21,10 @@ const goCardlessWebhook = {
         }
     ]
 };
+const webhookEndpointSecret = process.env.GOCARDLESS_WEBHOOK_SECRET;
+const hmac = crypto.createHmac('sha256', webhookEndpointSecret);
+hmac.update(JSON.stringify(webhookBody));
+const webhookBodyDigest = hmac.digest('hex');
 
 describe('updateMember', function () {
     beforeEach(() => {
@@ -88,13 +93,27 @@ describe('updateMember', function () {
 
         chai.request(app)
             .post('/updateMember')
-            .send(goCardlessWebhook)
+            .set('Webhook-Signature', webhookBodyDigest)
+            .send(webhookBody)
             .end((err, res) => {
                 expect(res).to.have.status(204);
                 setTimeout(() => {
                     expect(updateAirtable.isDone()).to.equal(true);
                     done();
-                }, 500);
+                }, 200);
+            });
+    });
+
+    it('should return a 498 if the webhook signature is invalid', function(done) {
+        const invalidSignature = webhookBodyDigest + 'invalid';
+
+        chai.request(app)
+            .post('/updateMember')
+            .set('Webhook-Signature', invalidSignature)
+            .send(webhookBody)
+            .end((err, res) => {
+                expect(res).to.have.status(498);
+                done();
             });
     });
 });
