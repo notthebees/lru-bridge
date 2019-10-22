@@ -6,7 +6,12 @@
 
 const app = require('../app');
 const debug = require('debug')('lru-bridge:server');
-const http = require('http');
+const fs = require('fs');
+const https = require('https');
+
+const privateKey  = fs.readFileSync('sslcert/key.pem', 'utf8');
+const certificate = fs.readFileSync('sslcert/cert.pem', 'utf8');
+const credentials = {key: privateKey, cert: certificate};
 
 /**
  * Get port from environment and store in Express.
@@ -19,7 +24,7 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-const server = http.createServer(app);
+const server = https.createServer(credentials, app);
 
 /**
  * Listen on provided port, on all network interfaces.
