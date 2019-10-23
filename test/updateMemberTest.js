@@ -28,7 +28,7 @@ const webhookBodyDigest = hmac.digest('hex');
 
 describe('updateMember', function () {
     beforeEach(() => {
-        nock('https://api-sandbox.gocardless.com')
+        nock(gocardless.baseUrl)
             .get('/subscriptions/' + subscriptionId)
             .reply(200, {
                 subscriptions: {
@@ -37,7 +37,7 @@ describe('updateMember', function () {
                     }
                 }
             });
-        nock('https://api-sandbox.gocardless.com')
+        nock(gocardless.baseUrl)
             .get('/mandates/' + mandateId)
             .reply(200, {
                 mandates: {
@@ -46,7 +46,7 @@ describe('updateMember', function () {
                     }
                 }
             });
-        nock('https://api-sandbox.gocardless.com')
+        nock(gocardless.baseUrl)
             .get('/customers/' + customerId)
             .reply(200, {
                 customers: {

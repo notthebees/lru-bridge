@@ -57,7 +57,7 @@ function getCustomer(error, response, body) {
         console.log('Retrieved customer:', customerId);
 
         const options = {
-            url: 'https://api-sandbox.gocardless.com/customers/' + customerId,
+            url: gocardless.baseUrl + '/customers/' + customerId,
             headers: gocardless.requestHeaders
         };
 
@@ -72,7 +72,7 @@ function getMandate(error, response, body) {
         console.log('Retrieved mandate:', mandateId);
 
         const options = {
-            url: 'https://api-sandbox.gocardless.com/mandates/' + mandateId,
+            url: gocardless.baseUrl + '/mandates/' + mandateId,
             headers: gocardless.requestHeaders
         };
 
@@ -82,7 +82,7 @@ function getMandate(error, response, body) {
 
 function updateFor(subscriptionId) {
     const options = {
-        url: 'https://api-sandbox.gocardless.com/subscriptions/' + subscriptionId,
+        url: gocardless.baseUrl + '/subscriptions/' + subscriptionId,
         headers: gocardless.requestHeaders
     };
 

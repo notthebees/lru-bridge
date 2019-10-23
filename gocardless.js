@@ -3,8 +3,8 @@ const apiKey = process.env.GOCARDLESS_API_KEY;
 module.exports = {
     baseUrl:
         process.env.NODE_ENV === "development"
-            ? "https://api-sandbox.gocardless.com/"
-            : "https://api.gocardless.com/",
+            ? "https://api-sandbox.gocardless.com"
+            : "https://api.gocardless.com",
     requestHeaders: {
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + apiKey,
