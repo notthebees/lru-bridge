@@ -1,14 +1,18 @@
 const Airtable = require('airtable');
 
+const airtableApiKey = process.env.AIRTABLE_API_KEY;
+const airtableBaseId = process.env.AIRTABLE_BASE_ID;
+const env = process.env.NODE_ENV;
 const gocardlessApiKey = process.env.GOCARDLESS_API_KEY;
+const gocardlessWebhookSecret = process.env.GOCARDLESS_WEBHOOK_SECRET;
 
 const config = {
     airtable: {
-        base: new Airtable({apiKey: 'keyZ0TTQdstBfuP3H'}).base('appT1QHGIE3H9c5Dn')
+        base: new Airtable({apiKey: airtableApiKey}).base(airtableBaseId)
     },
     gocardless: {
         baseUrl:
-            process.env.NODE_ENV === "development"
+            env === "development"
                 ? "https://api-sandbox.gocardless.com"
                 : "https://api.gocardless.com",
         requestHeaders: {
@@ -16,7 +20,7 @@ const config = {
             'Authorization': 'Bearer ' + gocardlessApiKey,
             'GoCardless-Version': '2015-07-06'
         },
-        webhookSecret: process.env.NODE_ENV === "test" ? "someSecret" : process.env.GOCARDLESS_WEBHOOK_SECRET
+        webhookSecret: env === "test" ? "someSecret" : gocardlessWebhookSecret
     }
 };
 
