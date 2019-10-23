@@ -6,7 +6,7 @@ const request = require('request');
 const Airtable = require('airtable');
 const base = new Airtable({apiKey: 'keyZ0TTQdstBfuP3H'}).base('appT1QHGIE3H9c5Dn');
 
-const goCardlessApiKey = process.env.GO_CARDLESS_API_KEY;
+const goCardlessApiKey = process.env.GOCARDLESS_API_KEY;
 const webhookEndpointSecret = process.env.GOCARDLESS_WEBHOOK_SECRET;
 
 const goCardlessHeaders = {
