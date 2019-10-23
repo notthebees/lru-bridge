@@ -6,8 +6,6 @@ const logger = require("morgan");
 
 const updateMemberRouter = require("./routes/updateMember");
 
-const { gcBaseUrl } = require("./config");
-
 const app = express();
 
 app.use(logger("dev"));

@@ -4,6 +4,7 @@ const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const crypto = require('crypto');
 const expect = chai.expect;
+const gocardless = require('../gocardless');
 const nock = require('nock');
 
 const subscriptionId = "someSubscriptionId";
@@ -21,8 +22,7 @@ const webhookBody = {
         }
     ]
 };
-const webhookEndpointSecret = process.env.GOCARDLESS_WEBHOOK_SECRET;
-const hmac = crypto.createHmac('sha256', webhookEndpointSecret);
+const hmac = crypto.createHmac('sha256', gocardless.webhookSecret);
 hmac.update(JSON.stringify(webhookBody));
 const webhookBodyDigest = hmac.digest('hex');
 

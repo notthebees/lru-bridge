@@ -5,10 +5,9 @@ router.use(express.json());
 const request = require('request');
 const Airtable = require('airtable');
 const base = new Airtable({apiKey: 'keyZ0TTQdstBfuP3H'}).base('appT1QHGIE3H9c5Dn');
+const gocardless = require('../gocardless');
 
 const goCardlessApiKey = process.env.GOCARDLESS_API_KEY;
-const webhookEndpointSecret = process.env.GOCARDLESS_WEBHOOK_SECRET;
-
 const goCardlessHeaders = {
     'Accept': 'application/json',
     'Authorization': 'Bearer ' + goCardlessApiKey,
@@ -98,7 +97,7 @@ function updateFor(subscriptionId) {
 }
 
 function isValid(signature, requestBody) {
-    const hmac = crypto.createHmac('sha256', webhookEndpointSecret);
+    const hmac = crypto.createHmac('sha256', gocardless.webhookSecret);
     hmac.update(JSON.stringify(requestBody));
     return signature === hmac.digest('hex');
 }
