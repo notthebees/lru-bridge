@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "export NODE_ENV=development && nodemon ./bin/www",
-    "test": "mocha"
+    "test": "export NODE_ENV=test && mocha"
   },
   "dependencies": {
     "airtable": "^0.7.1",
