@@ -4,7 +4,7 @@ const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const crypto = require('crypto');
 const expect = chai.expect;
-const gocardless = require('../gocardless');
+const gocardless = require('../config').gocardless;
 const nock = require('nock');
 
 const subscriptionId = "someSubscriptionId";

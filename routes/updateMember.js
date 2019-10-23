@@ -5,7 +5,7 @@ router.use(express.json());
 const request = require('request');
 const Airtable = require('airtable');
 const base = new Airtable({apiKey: 'keyZ0TTQdstBfuP3H'}).base('appT1QHGIE3H9c5Dn');
-const gocardless = require('../gocardless');
+const gocardless = require('../config').gocardless;
 
 function updateMember(memberId) {
     base('Members').update([
