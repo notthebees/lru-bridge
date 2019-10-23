@@ -7,6 +7,10 @@
     "dev": "export NODE_ENV=development && nodemon ./bin/www",
     "test": "export NODE_ENV=test && mocha"
   },
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=6.0.0"
+  },
   "dependencies": {
     "airtable": "^0.7.1",
     "cookie-parser": "~1.4.4",
