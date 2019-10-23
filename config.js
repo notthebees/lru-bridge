@@ -1,6 +1,11 @@
+const Airtable = require('airtable');
+
 const gocardlessApiKey = process.env.GOCARDLESS_API_KEY;
 
 const config = {
+    airtable: {
+        base: new Airtable({apiKey: 'keyZ0TTQdstBfuP3H'}).base('appT1QHGIE3H9c5Dn')
+    },
     gocardless: {
         baseUrl:
             process.env.NODE_ENV === "development"

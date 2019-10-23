@@ -3,12 +3,10 @@ const express = require('express');
 const router = express.Router();
 router.use(express.json());
 const request = require('request');
-const Airtable = require('airtable');
-const base = new Airtable({apiKey: 'keyZ0TTQdstBfuP3H'}).base('appT1QHGIE3H9c5Dn');
-const gocardless = require('../config').gocardless;
+const { airtable, gocardless } = require('../config');
 
 function updateMember(memberId) {
-    base('Members').update([
+    airtable.base('Members').update([
         {
             "id": memberId,
             "fields": {
@@ -32,7 +30,7 @@ function getEmail(error, response, body) {
         const email = info.customers.email;
         console.log('Retrieved email:', email);
 
-        base('Members').select({
+        airtable.base('Members').select({
             maxRecords: 1,
             view: 'Grid view',
             filterByFormula: "AND({Email address} = '" + email + "', {Contact type} = 'Interested (did not complete payment)')"
