@@ -1,10 +1,10 @@
-const app = require('../app')
+const app = require('../app');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const crypto = require('crypto');
 const expect = chai.expect;
-const gocardless = require('../config').gocardless;
+const { airtable, gocardless } = require('../config');
 const nock = require('nock');
 
 const subscriptionId = "someSubscriptionId";
@@ -53,8 +53,8 @@ describe('updateMember', function () {
                     email: email
                 }
             });
-        nock('https://api.airtable.com')
-            .get('/v0/appT1QHGIE3H9c5Dn/Members')
+        nock(airtable.baseUrl)
+            .get("/v0/" + airtable.baseId + "/Members")
             .query({
                 maxRecords: 1,
                 view: "Grid view",
@@ -70,8 +70,8 @@ describe('updateMember', function () {
     });
 
     it('should update the member in Airtable corresponding to the GoCardless webhook', function (done) {
-        const updateAirtable = nock('https://api.airtable.com')
-            .patch('/v0/appT1QHGIE3H9c5Dn/Members/?', {
+        const updateAirtable = nock(airtable.baseUrl)
+            .patch("/v0/" + airtable.baseId + "/Members/?", {
                 records: [
                     {
                         id: memberId,

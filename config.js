@@ -1,5 +1,3 @@
-const Airtable = require('airtable');
-
 const airtableApiKey = process.env.AIRTABLE_API_KEY;
 const airtableBaseId = process.env.AIRTABLE_BASE_ID;
 const env = process.env.NODE_ENV;
@@ -8,7 +6,9 @@ const gocardlessWebhookSecret = process.env.GOCARDLESS_WEBHOOK_SECRET;
 
 const config = {
     airtable: {
-        base: new Airtable({apiKey: airtableApiKey}).base(airtableBaseId)
+        apiKey: env === "test" ? "someAirtableApiKey" : airtableApiKey,
+        baseId: env === "test" ? "someBaseId" : airtableBaseId,
+        baseUrl: "https://api.airtable.com"
     },
     gocardless: {
         baseUrl:
