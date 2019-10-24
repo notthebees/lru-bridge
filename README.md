@@ -1,9 +1,24 @@
 # lru-bridge
 
+## API
+
+### Endpoints
+
+POST    /updateMember
+* Responds to GoCardless "New Subscription" updates
+
+## Build
+
 Install dependencies:
+
 ```npm install```
 
-Start server:
-```npm start```
+Tests are written using the `mocha` framework. Run with
 
-Server will listen on port 3000
+```npm test```
+
+For local testing, run the `dev` script:
+
+```npm run dev```
+
+The server will listen on port 3000.

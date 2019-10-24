@@ -4,16 +4,27 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "export NODE_ENV=development && nodemon ./bin/www"
+    "dev": "export NODE_ENV=development && nodemon ./bin/www",
+    "test": "export NODE_ENV=test && mocha"
+  },
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=6.0.0"
   },
   "dependencies": {
+    "airtable": "^0.7.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^8.1.0",
     "express": "~4.16.1",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "request": "^2.88.0"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^6.2.1",
+    "nock": "^11.4.0",
     "nodemon": "^1.19.2"
   }
 }
