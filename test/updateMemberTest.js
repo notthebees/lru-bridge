@@ -54,7 +54,7 @@ describe('updateMember', function () {
                 }
             });
         nock(airtable.baseUrl)
-            .get("/v0/" + airtable.baseId + "/Members")
+            .get("/v0/" + airtable.baseId + "/Members%20%26%20Contacts")
             .query({
                 maxRecords: 1,
                 view: "Grid view",
@@ -71,7 +71,7 @@ describe('updateMember', function () {
 
     it('should update the member in Airtable corresponding to the GoCardless webhook', function (done) {
         const updateAirtable = nock(airtable.baseUrl)
-            .patch("/v0/" + airtable.baseId + "/Members/?", {
+            .patch("/v0/" + airtable.baseId + "/Members%20%26%20Contacts/?", {
                 records: [
                     {
                         id: memberId,
@@ -104,7 +104,7 @@ describe('updateMember', function () {
             });
     });
 
-    it('should return a 498 if the webhook signature is invalid', function(done) {
+    it('should return a 498 if the webhook signature is invalid', function (done) {
         const invalidSignature = webhookBodyDigest + 'invalid';
 
         chai.request(app)
