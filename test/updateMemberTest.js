@@ -57,7 +57,7 @@ describe('updateMember', function () {
             .get("/v0/" + airtable.baseId + "/Members%20%26%20Contacts")
             .query({
                 maxRecords: 1,
-                view: "Grid view",
+                view: "All data",
                 filterByFormula: "AND({Email address} = '" + email + "', {Contact type} = 'Interested (did not complete payment)')"
             })
             .reply(200, {
