@@ -34,7 +34,7 @@ function getEmail(error, response, body) {
 
         base('Members & Contacts').select({
             maxRecords: 1,
-            view: 'Grid view',
+            view: 'All data',
             filterByFormula: "AND({Email address} = '" + email + "', {Contact type} = 'Interested (did not complete payment)')"
         }).firstPage(function (err, records) {
             if (err) {
