@@ -26,7 +26,7 @@ const hmac = crypto.createHmac('sha256', gocardless.webhookSecret);
 hmac.update(JSON.stringify(webhookBody));
 const webhookBodyDigest = hmac.digest('hex');
 
-describe('updateMember', function () {
+describe('paymentUpdates', function () {
     beforeEach(() => {
         nock(gocardless.baseUrl)
             .get('/subscriptions/' + subscriptionId)
@@ -92,7 +92,7 @@ describe('updateMember', function () {
             });
 
         chai.request(app)
-            .post('/updateMember')
+            .post('/paymentUpdates')
             .set('Webhook-Signature', webhookBodyDigest)
             .send(webhookBody)
             .end((err, res) => {
@@ -108,7 +108,7 @@ describe('updateMember', function () {
         const invalidSignature = webhookBodyDigest + 'invalid';
 
         chai.request(app)
-            .post('/updateMember')
+            .post('/paymentUpdates')
             .set('Webhook-Signature', invalidSignature)
             .send(webhookBody)
             .end((err, res) => {
