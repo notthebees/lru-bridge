@@ -5,10 +5,10 @@ router.use(express.json());
 const request = require('request');
 const { airtable, gocardless } = require('../config');
 const Airtable = require('airtable');
-const base = new Airtable({apiKey: airtable.apiKey}).base(airtable.baseId);
+const base = new Airtable({ apiKey: airtable.apiKey }).base(airtable.baseId);
 
 function updateMember(memberId) {
-    base('Members').update([
+    base('Members & Contacts').update([
         {
             "id": memberId,
             "fields": {
@@ -32,7 +32,7 @@ function getEmail(error, response, body) {
         const email = info.customers.email;
         console.log('Retrieved email:', email);
 
-        base('Members').select({
+        base('Members & Contacts').select({
             maxRecords: 1,
             view: 'Grid view',
             filterByFormula: "AND({Email address} = '" + email + "', {Contact type} = 'Interested (did not complete payment)')"
